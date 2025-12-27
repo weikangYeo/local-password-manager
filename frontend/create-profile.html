@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Create New Profile</title>
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/app.css">
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .create-profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #202124;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.875rem;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background-color: white;
+            color: #202124;
+            font-size: 1rem;
+            font-family: "Nunito", sans-serif;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: rgb(14, 122, 254);
+            border-width: 2px;
+            padding: 11px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: #9aa0a6;
+        }
+
+        .create-button {
+            background-color: rgb(14, 122, 254);
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 0.875rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Nunito", sans-serif;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .create-button:hover {
+            background-color: rgb(12, 108, 224);
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+        }
+
+        .create-button:active {
+            background-color: rgb(10, 94, 194);
+        }
+
+        .back-button {
+            background-color: white;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            color: #1a73e8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Nunito", sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="create-profile-container">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Create New Profile</h1>
+            
+            <form id="createProfileForm" onsubmit="handleCreate(event)">
+                <div class="form-group">
+                    <label for="profileName">Profile Name</label>
+                    <input 
+                        type="text" 
+                        id="profileName" 
+                        name="profileName" 
+                        placeholder="Enter profile name"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="hints">Hints for secret key</label>
+                    <textarea 
+                        id="hints" 
+                        name="hints" 
+                        placeholder="Enter hints for your secret key"
+                        required
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="create-button">Create</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleCreate(event) {
+            event.preventDefault();
+            
+            const profileName = document.getElementById('profileName').value;
+            const hints = document.getElementById('hints').value;
+            
+            // Store the created profile data (in a real app, this would be sent to backend)
+            sessionStorage.setItem('createdProfileName', profileName);
+            sessionStorage.setItem('createdProfileHints', hints);
+            
+            // Redirect back to profile selection page
+            window.location.href = 'profile-selection.html';
+        }
+
+        function goBack() {
+            window.location.href = 'profile-selection.html';
+        }
+    </script>
+</body>
+</html>
+

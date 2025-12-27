@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Enter Secret Key</title>
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/app.css">
+    <style>
+        body {
+            background-color: white;
+        }
+
+        .profile-entry-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #202124;
+            font-weight: 400;
+        }
+
+        .profile-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #5f6368;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 0.875rem;
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.875rem;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background-color: white;
+            color: #202124;
+            font-size: 1rem;
+            font-family: "Nunito", sans-serif;
+            box-sizing: border-box;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: rgb(14, 122, 254);
+            border-width: 2px;
+            padding: 11px;
+        }
+
+        input[type="password"]::placeholder {
+            color: #9aa0a6;
+        }
+
+        .proceed-button {
+            background-color: rgb(14, 122, 254);
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 0.875rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Nunito", sans-serif;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .proceed-button:hover {
+            background-color: rgb(12, 108, 224);
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+        }
+
+        .proceed-button:active {
+            background-color: rgb(10, 94, 194);
+        }
+
+        .back-button {
+            background-color: white;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            color: #1a73e8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: "Nunito", sans-serif;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="profile-entry-container">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h1>Enter Secret Key</h1>
+            
+            <div class="profile-info">
+                <div class="info-item">
+                    <div class="info-label">Profile Name</div>
+                    <div class="info-value" id="profileNameDisplay">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Hint for secret Key</div>
+                    <div class="info-value" id="hintDisplay">This is a mock hint value for demonstration purposes</div>
+                </div>
+            </div>
+
+            <form id="secretKeyForm" onsubmit="handleProceed(event)">
+                <div class="form-group">
+                    <label for="secretKey">Enter your secret key here</label>
+                    <input 
+                        type="password" 
+                        id="secretKey" 
+                        name="secretKey" 
+                        placeholder="Enter your secret key"
+                        required
+                    />
+                </div>
+
+                <button type="submit" class="proceed-button">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load profile name from sessionStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const selectedProfile = sessionStorage.getItem('selectedProfile');
+            if (selectedProfile) {
+                document.getElementById('profileNameDisplay').textContent = selectedProfile;
+            } else {
+                // If no profile selected, redirect back to selection page
+                window.location.href = 'profile-selection.html';
+            }
+        });
+
+        function handleProceed(event) {
+            event.preventDefault();
+            
+            const secretKey = document.getElementById('secretKey').value;
+            
+            // In a real app, this would validate the secret key with the backend
+            console.log('Secret key entered for profile:', sessionStorage.getItem('selectedProfile'));
+            
+            // For now, just show an alert (you can redirect to another page later)
+            alert('Secret key submitted! (This is a mock - implement backend validation)');
+        }
+
+        function goBack() {
+            window.location.href = 'profile-selection.html';
+        }
+    </script>
+</body>
+</html>
+
