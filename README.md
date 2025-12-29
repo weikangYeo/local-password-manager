@@ -2,7 +2,7 @@
 
 ## Goals
 
-Build a password manager that can run on local (Mac & Windows), that manage user password.
+Build a password manager that can run on local (Mac & Windows), that manage user password. Build from scratch is because dont want to play any $$$ and not trusting the third party source (data store at server side). Didnt use any DB because this project is too small to have a DB.
 
 ### Main PLAN
 

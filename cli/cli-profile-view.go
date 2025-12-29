@@ -26,7 +26,6 @@ func loadProfile() (model.Profile, error) {
 	println("Profile loaded successfully")
 	println("------------------------------------------------")
 	fmt.Printf("Profile Name: %s\n", profile.Name)
-	fmt.Printf("Profile Hints: %s\n", profile.Hints)
 	println("------------------------------------------------")
 	return model.Profile{}, err
 }

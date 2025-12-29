@@ -5,3 +5,7 @@ type SecretKV struct {
 	Value       string
 	Description string
 }
+
+func (kv *SecretKV) GetUnmaskedValue(secretKey string) string {
+
+}
