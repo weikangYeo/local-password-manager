@@ -1,23 +1,22 @@
-# Local Password Manager
+# Local Password Manager (CLI)
 
 ## Goals
 
 Build a password manager that can run on local (Mac & Windows), that manage user password.
 
-## About
+### Main PLAN
 
-This is the official Wails Vanilla-TS template.
+- a. Use key to create signature of secret word and store signature, this could use as a soft verfication to remind user that he/she might entered wrong secret key, do they still want to proceed.
+  - context: intend to encrypt the password kv as secret file. This file can output and share to other device, hence the password is saved, later can be re-imported to other device via secret key to reopen it.
+- b. Since it is only local, shall i just use asymc key to encrypt/decrypt file?
+  - implication is that this password kv cannot be "share" to other device.
+  - it can still "share", but only the device has the same private key can read it.
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: <https://wails.io/docs/reference/project-config>
+### TODO
 
-## Live Development
-
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on <http://localhost:34115>. Connect
-to this in your browser, and you can call your Go code from devtools.
-
-## Building
-
-To build a redistributable, production mode package, use `wails build`.
+- [ ] CRUD for key and pwd value
+- [ ] Encrypt and decrypt pwd kv file with secret key.
+- [ ] Import/Output key file
+- [ ] Verify Keyword Signature
+- [ ] Profile (future epic)
+  - [ ] Each profile has its own KV
