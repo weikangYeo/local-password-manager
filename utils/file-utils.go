@@ -6,7 +6,10 @@ import (
 )
 
 func toAppStoragePath(path string) string {
-	homeDir, _ := os.UserHomeDir()
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
 	return filepath.Join(homeDir, ".local-pwd-manager", path)
 }
 
