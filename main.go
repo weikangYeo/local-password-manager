@@ -1,7 +1,7 @@
 package main
 
 import (
-	"local-pwd-manager/cli"
+	"wk-local-pwd-manager/cli"
 )
 
 func main() {

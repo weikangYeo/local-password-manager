@@ -2,8 +2,8 @@ package persistent
 
 import (
 	"encoding/json"
-	"local-pwd-manager/model"
-	"local-pwd-manager/utils"
+	"wk-local-pwd-manager/model"
+	"wk-local-pwd-manager/utils"
 )
 
 func CreateProfile(profile model.Profile) error {

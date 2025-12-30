@@ -1,3 +1,3 @@
-module local-pwd-manager
+module wk-local-pwd-manager
 
 go 1.23

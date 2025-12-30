@@ -1,113 +1,161 @@
 package cli
 
 import (
-	"bufio"
 	"fmt"
-	"local-pwd-manager/model"
-	"local-pwd-manager/persistent"
-	"local-pwd-manager/utils"
-	"os"
 	"strconv"
+	"wk-local-pwd-manager/model"
+	"wk-local-pwd-manager/persistent"
+	"wk-local-pwd-manager/utils"
 )
 
 func runKvMainView(secretKey string) {
-	var action string
-	for action != "4" {
-		println("Loading KV file...")
+	for {
+		fmt.Println("Loading KV file...")
 		secretKVs, err := persistent.GetAllSecretKVs()
 		if err != nil {
-			println("Error loading secret kvs: " + err.Error())
+			fmt.Println("Error loading secret kvs: " + err.Error())
 			return
 		}
-		println("================================================")
-		println("Vault Menu:")
-		println("================================================")
-		println("------------------------------------------------")
+		fmt.Println("================================================")
+		fmt.Println("Vault")
+		fmt.Println("================================================")
+		fmt.Println("------------------------------------------------")
 		if len(secretKVs) == 0 {
-			println("---Vault is empty---")
+			fmt.Println("---Vault is empty---")
 		}
 		for i, kv := range secretKVs {
-			fmt.Printf("%d:\n Key: %s\n Value: %s\n Description: %s\n\n", i, kv.Key, "********", kv.Description)
+			fmt.Printf("%d:\nKey: %s\nValue: %s\nDescription: %s\n\n", i, kv.Key, "********", kv.Description)
 		}
-		println("------------------------------------------------")
-		println("Select your action:")
-		println("0. Reveal a KV")
-		println("1. Add a new KV")
-		println("2. Edit a KV")
-		println("3. Delete a KV")
-		println("4. Exit")
-		scanner := bufio.NewScanner(os.Stdin)
-		scanner.Scan()
-		action := scanner.Text()
+		fmt.Println("------------------------------------------------")
+		fmt.Println("Select your action:")
+		fmt.Println("0. Reveal a KV")
+		fmt.Println("1. Add a new KV")
+		fmt.Println("2. Edit a KV")
+		fmt.Println("3. Delete a KV")
+		fmt.Println("4. Exit")
+		action := utils.GetStdIn()
 		switch action {
 		case "0":
-			runRevealKVView(secretKVs, secretKey)
+			runRevealKvView(secretKVs, secretKey)
 		case "1":
-			runAddNewKVView(secretKVs, secretKey)
+			runAddNewKvView(secretKVs, secretKey)
 		case "2":
-			runEditKVView()
+			runEditKvView(secretKVs, secretKey)
 		case "3":
-			runDeleteKVView()
-		case "4":
-			return
+			runDeleteKvView(secretKVs, secretKey)
 		default:
-			println("Invalid action, please try again")
+			fmt.Println("Invalid action, please try again")
 		}
 	}
 }
 
-func runRevealKVView(secretKVs []model.SecretKV, secretKey string) {
-	println("Please enter the index of the KV to reveal:")
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	index, err := strconv.Atoi(scanner.Text())
+func runRevealKvView(secretKVs []model.SecretKV, secretKey string) {
+	fmt.Println("Please enter the index of the KV to reveal:")
+	index, err := strconv.Atoi(utils.GetStdIn())
 	if err != nil {
-		println("Invalid index, please enter a number only")
+		fmt.Println("Error parsing index: " + err.Error())
 		return
 	}
 	if index < 0 || index >= len(secretKVs) {
-		println("Invalid index, please try again")
+		fmt.Println("Invalid index, please try again")
 		return
 	}
 	secretKV := secretKVs[index]
 	unmaskedValue, err := utils.Decrypt(secretKV.Value, secretKey)
 	if err != nil {
-		println("Error decrypting value: " + err.Error())
+		fmt.Println("Error decrypting value: " + err.Error())
 		return
 	}
 	fmt.Printf("Key: %s\n", secretKV.Key)
 	fmt.Printf("Value: %s\n", unmaskedValue)
 	fmt.Printf("Description: %s\n", secretKV.Description)
-	println("\n\n\n")
+	utils.Prompt("Press any key to continue...")
 }
 
-func runAddNewKVView(secretKVs []model.SecretKV, secretKey string) {
-	println("Please enter the key:")
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	key := scanner.Text()
-	println("Please enter the value:")
-	scanner.Scan()
-	value := scanner.Text()
+func runAddNewKvView(secretKVs []model.SecretKV, secretKey string) {
+	key := utils.Prompt("Please enter the key:")
+	value := utils.Prompt("Please enter the value:")
 	maskedValue, err := utils.Encrypt(value, secretKey)
 	if err != nil {
-		println("Error encrypting value: " + err.Error())
+		fmt.Println("Error encrypting value: " + err.Error())
 		return
 	}
-	println("Please enter the description:")
-	scanner.Scan()
-	description := scanner.Text()
+	description := utils.Prompt("Please enter the description:")
 	secretKV := model.SecretKV{
 		Key:         key,
 		Value:       maskedValue,
 		Description: description,
 	}
 	secretKVs = append(secretKVs, secretKV)
-	persistent.WriteAllSecretKVs(secretKVs)
+	err = persistent.WriteAllSecretKVs(secretKVs)
+	if err != nil {
+		fmt.Println("Error writing secret kvs: " + err.Error())
+		return
+	}
 }
 
-func runEditKVView(secretKVs []model.SecretKV, secretKey string) {
+func runEditKvView(secretKVs []model.SecretKV, secretKey string) {
+	fmt.Println("Please enter the index of the KV to edit:")
+	index, err := strconv.Atoi(utils.GetStdIn())
+	if err != nil {
+		fmt.Println("Error parsing index: " + err.Error())
+		return
+	}
+	if index < 0 || index >= len(secretKVs) {
+		fmt.Println("Invalid index, please try again")
+		return
+	}
+	secretKV := secretKVs[index]
+	unmaskedValue, err := utils.Decrypt(secretKV.Value, secretKey)
+	if err != nil {
+		fmt.Println("Error decrypting value: " + err.Error())
+		return
+	}
+	fmt.Printf("Key: %s\n", secretKV.Key)
+	fmt.Printf("Value: %s\n", unmaskedValue)
+	fmt.Printf("Description: %s\n", secretKV.Description)
+	fmt.Println("------------------------------------------------")
+	key := utils.Prompt("Enter new Key:")
+	value := utils.Prompt("Enter new Value:")
+	maskedValue, err := utils.Encrypt(value, secretKey)
+	if err != nil {
+		fmt.Println("Error encrypting value: " + err.Error())
+		return
+	}
+	description := utils.Prompt("Enter new Description:")
+	secretKVs[index].Key = key
+	secretKVs[index].Value = maskedValue
+	secretKVs[index].Description = description
+	err = persistent.WriteAllSecretKVs(secretKVs)
+	if err != nil {
+		fmt.Println("Error writing secret kvs: " + err.Error())
+		return
+	}
 }
 
-func runDeleteKVView(secretKVs []model.SecretKV, secretKey string) {
+func runDeleteKvView(secretKVs []model.SecretKV, secretKey string) {
+	fmt.Println("Please enter the index of the KV to delete:")
+	index, err := strconv.Atoi(utils.GetStdIn())
+	if err != nil {
+		fmt.Println("Error parsing index: " + err.Error())
+		return
+	}
+	if index < 0 || index >= len(secretKVs) {
+		fmt.Println("Invalid index, please try again")
+		return
+	}
+	secretKV := secretKVs[index]
+	fmt.Printf("Key: %s\n", secretKV.Key)
+	fmt.Printf("Description: %s\n", secretKV.Description)
+	fmt.Println("------------------------------------------------")
+	proceed := utils.Prompt("Are you sure you want to delete this KV? (y/n)")
+	if proceed == "y" || proceed == "Y" {
+		secretKVs = append(secretKVs[:index], secretKVs[index+1:]...)
+		err = persistent.WriteAllSecretKVs(secretKVs)
+		if err != nil {
+			fmt.Println("Error writing secret kvs: " + err.Error())
+			return
+		}
+	}
+
 }
