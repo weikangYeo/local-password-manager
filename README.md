@@ -16,9 +16,12 @@ this project is too small to have a DB.
 
 ### TODO
 
-- [X] CRUD for key and pwd value
-- [X] Encrypt and decrypt pwd kv file with secret key.
-- [ ] Import/Output key file
-- [ ] Verify Keyword Signature
-- [ ] Profile (future epic)
-    - [ ] Each profile has its own KV
+- [X] Main
+  - [X] CRUD for key and pwd value
+  - [X] Encrypt and decrypt pwd kv file with secret key.
+- [ ] Optional
+  - [ ] Import/Output key file
+  - [ ] Verify Keyword Signature
+  - [ ] Profile
+      - [ ] Each profile has its own KV
+  - [ ] UI version
