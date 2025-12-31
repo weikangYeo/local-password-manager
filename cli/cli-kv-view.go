@@ -19,14 +19,13 @@ func runKvMainView(secretKey string) {
 		fmt.Println("================================================")
 		fmt.Println("Vault")
 		fmt.Println("================================================")
-		fmt.Println("------------------------------------------------")
 		if len(secretKVs) == 0 {
 			fmt.Println("---Vault is empty---")
 		}
 		for i, kv := range secretKVs {
 			fmt.Printf("%d:\nKey: %s\nValue: %s\nDescription: %s\n\n", i, kv.Key, "********", kv.Description)
+			fmt.Println("------------------------------------------------")
 		}
-		fmt.Println("------------------------------------------------")
 		fmt.Println("Select your action:")
 		fmt.Println("0. Reveal a KV")
 		fmt.Println("1. Add a new KV")

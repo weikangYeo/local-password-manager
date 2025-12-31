@@ -19,6 +19,7 @@ this project is too small to have a DB.
 - [X] Main
   - [X] CRUD for key and pwd value
   - [X] Encrypt and decrypt pwd kv file with secret key.
+  - [X] Use KDF & add salt
 - [ ] Optional
   - [ ] Import/Output key file
   - [ ] Verify Keyword Signature

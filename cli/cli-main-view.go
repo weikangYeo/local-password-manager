@@ -15,6 +15,7 @@ func RunCLI() {
 		return
 	}
 	fmt.Println("Profile loaded successfully")
+	fmt.Printf("\n\n\n")
 	fmt.Printf("Welcome %s!\n", profile.Name)
 
 	// todo: to verify secret key, use the profile.KeySignature to verify.
