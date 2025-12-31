@@ -43,6 +43,8 @@ func runKvMainView(secretKey string) {
 			runEditKvView(secretKVs, secretKey)
 		case "3":
 			runDeleteKvView(secretKVs, secretKey)
+		case "4":
+			return
 		default:
 			fmt.Println("Invalid action, please try again")
 		}
