@@ -28,3 +28,5 @@ this project is too small to have a DB.
   - [ ] Profile
       - [ ] Each profile has its own KV
   - [ ] UI version
+- [ ] Desktop view (Fyne, Wails, Gio)
+- [ ] Security Enhancement
