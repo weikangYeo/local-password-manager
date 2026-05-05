@@ -22,6 +22,8 @@ this project is too small to have a DB.
   - [X] Use KDF & add salt
 - [ ] Optional
   - [ ] Import/Output key file
+  - [ ] Rotate Key & Hints
+  - [ ] Random Generate Password
   - [ ] Verify Keyword Signature
   - [ ] Profile
       - [ ] Each profile has its own KV

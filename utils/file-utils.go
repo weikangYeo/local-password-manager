@@ -29,7 +29,3 @@ func WriteFile(path string, data []byte) error {
 	}
 	return os.WriteFile(toAppStoragePath(path), data, 0600)
 }
-
-// func AppendFile(path string, data []byte) error {
-// 	return os.AppendFile(toAppStoragePath(path), data, 0644)
-// }
